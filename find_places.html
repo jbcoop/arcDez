@@ -1,0 +1,79 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ArcGIS Developer Guide: Display a map (2D)</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.19/"></script>
+
+    <script>
+        require([
+            "esri/config",
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/tasks/Locator",
+            "esri/Graphic"
+        ], function (esriConfig, Map, MapView, Locator, Graphic) {
+
+            esriConfig.apiKey = "AAPKb974d16a7193423986dfea52909a65a58s6r-zSr1P4xMU0I1RVS0SWiE81QNdvAph2qP9_3YML6b8abq7ylP0aYQwEQjTzY";
+            const map = new Map({
+                basemap: "arcgis-navigation" // Basemap layer
+            });
+
+            const view = new MapView({
+                map: map,
+                center: [18.9553, 69.6492],
+                zoom: 13, // scale: 72223.819286
+                container: "viewDiv",
+                constraints: {
+                    snapToZoom: false
+                }
+            });
+
+            const places = ["Choose a place type...", "Parks and Outdoors", "Coffee shop", "Gas station", "Food", "Hotel"];
+
+            const select = document.createElement("select", "");
+            select.setAttribute("class", "esri-widget esri-select");
+            select.setAttribute("style", "width: 175px; font-family: 'Avenir Next W00'; font-size: 1em");
+
+            places.forEach(function (p) {
+                const option = document.createElement("option");
+                option.value = p;
+                option.innerHTML = p;
+                select.appendChild(option);
+            });
+
+            places.forEach(function (p) {
+                const option = document.createElement("option");
+                option.value = p;
+                option.innerHTML = p;
+                select.appendChild(option);
+            });
+
+            view.ui.add(select, "top-right");
+
+            const locator = new Locator({
+                url: "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
